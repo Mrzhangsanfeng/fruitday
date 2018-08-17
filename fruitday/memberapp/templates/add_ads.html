@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>增加地址</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        姓名:
+        <input type="text" name="aname"><br>
+        地址:
+        <input type="text" name="ads"><br>
+        电话:
+        <input type="text" name="phone"><br>
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>

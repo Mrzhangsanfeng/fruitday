@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>注册页</title>
+    <script src="{% static 'js/jquery-1.11.3.js' %}"></script>
+</head>
+<body>
+    <form action="{% url 'register_in' %}" method="post">
+        {% csrf_token %}
+        用户名:<input type="text" name="user_name" id="user_name"><br>
+        密码:<input type="password" name="user_pwd" id="user_pwd"><br>
+        确认密码:<input type="password" name="user_cpwd" id="user_cpwd"><br>
+        Email:<input type="text" name="emial" id="email" onblur="myemail()" _m="">
+        <span id="email_yanzheng"></span>
+        <br>
+        电话:<input type="text" name="phone" id="phone"><br>
+        {% if message %}
+            {{message}}<br>
+        {% endif %}
+        <input type="submit" value="注册" id="submit">
+    </form>
+
+    <script>
+
+
+        function myemail(){
+            $.ajax({
+                url:'{% url 'myemail' %}',
+                type:'post',
+                datatype:'json',
+                data:{
+                    'csrfmiddlewaretoken':'{{ csrf_token }}',
+                    'email':$("#email").val(),
+                },
+                success:function (data) {
+                    var msg = JSON.parse(data).msg
+//                    console.log(JSON.parse(data).msg,22222);
+                    $("#email").attr('_m', msg);
+//                    console.log($("#email").attr('_m'),11111);
+                    $("#email_yanzheng").text($("#email").attr('_m'));
+
+                    if (msg == '邮箱错误'){
+                        $("#submit").click(function(){
+                            console.log(msg);
+                            return false;
+                        })
+                    };
+                },
+                error:function (err) {
+                    console.log(err)
+                },
+            });
+
+        };
+    </script>
+
+</body>
+</html>

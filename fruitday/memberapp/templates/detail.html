@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物</title>
+    <script src="{% static 'js/jquery-1.11.3.js' %}"></script>
+</head>
+<body>
+    {{goodone.title}}
+    {{goodone.price}}
+    {{goodone.desc}}
+    <img src="{% static goodone.picture %}">
+
+{% comment %}
+<form action="{% url 'add_cart' %}/" method="get">
+    数量:
+    <input type="hidden" name="goodid" value="{{goodone.id}}">
+    <input type="text" name="gcount"><br>
+    <input type="submit" value="加入购物车">
+</form>
+{% endcomment %}
+
+    <a href="{{ goodone.get_adcart_url }}">加入购物车1</a>
+    <a onclick="addcart({{ goodone.id }})">加入购物车2</a>
+    <button onclick="addcart({{ goodone.id }})">加入购物车2</button>
+
+
+
+    <script>
+
+        function addcart(goodid) {
+            console.log($("a"))
+            $.ajax(
+                {
+                    url: '/cartinfo/addcart/',
+                    type: 'get',
+                    datatype: 'json',
+                    data: {
+                        'goodid': goodid,
+                        'gcount': 1,
+                    },
+                    success: function (data) {
+                        location.href="{% url 'cart' %}"
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    },
+                }
+            )
+        }
+
+    </script>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

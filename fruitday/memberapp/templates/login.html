@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="{% static 'js/jquery-1.11.3.js' %}"></script>
+
+</head>
+<body>
+    <form action="{% url 'login_in' %}" method="post">
+        {% csrf_token %}
+        用户名:
+        <input type="text" name="user_name"><br>
+        密码:
+        <input type="password" name="user_pwd"><br>
+        验证码:
+        <input type="text" name="text_captcha" id="text_captcha">
+
+        <img src="/verify_code/?1" id="imgvcode">
+        <div id="change">看不清?</div>
+
+        <input type="submit" value="登录" id="submit">
+
+    {{message}}
+    </form>
+
+    <script>
+        $('#change').css('cursor', 'pointer').click(function () {
+            $('#imgvcode').attr('src', $('#imgvcode').attr('src') + 1)
+       });
+
+//        $(function () {
+//          $.ajax({
+//                url:"{% url 'verify_code' %}",
+//                type:'post',
+//                datatype:'json',
+//                data:{
+//                    'csrfmiddlewaretoken':'{{ csrf_token }}',
+//                },
+//                success:function (data) {
+//                    var img = JSON.parse(data).img;
+//                    $("#captcha").attr('src','/'+img);
+//                },
+//                error:function (err) {
+//                    console.log(err);
+//                },
+//            })
+//        })
+
+//        $("#captcha").click(function (){
+//            $.ajax({
+//                url:"{% url 'verify_code' %}",
+//                type:'post',
+//                datatype:'json',
+//                data:{
+//                    'csrfmiddlewaretoken':'{{ csrf_token }}',
+//                },
+//                success:function (data) {
+//                    var img = JSON.parse(data).img;
+//                    $("#captcha").attr('src','/'+img);
+//                },
+//                error:function (err) {
+//                    console.log(err);
+//                },
+//            })
+//        });
+
+//        $("#text_captcha").blur(function () {
+//            console.log($("#text_captcha").val());
+//            $.ajax({
+//                url:"{% url 'login_in' %}",
+//                type:'post',
+//                datatype:'json',
+//                data:{
+//                    'csrfmiddlewaretoken':'{{ csrf_token }}',
+//                    'text_captcha':$("#text_captcha").val(),
+//                },
+//                success:function (data) {
+//
+//                },
+//                error:function (err) {
+//                    console.log(err);
+//                }
+//            })
+//        });
+
+
+
+    </script>
+
+
+</body>
+</html>

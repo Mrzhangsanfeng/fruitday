@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title %}首页{% endblock %}
+    </title>
+
+</head>
+<body>
+
+    {% if request.session.user_name %}
+        欢迎您:{{request.session.user_name}}
+    {% else %}
+    <a href="{% url 'login_out' %}">退出</a>
+    <a href="{% url 'login' %}">登录</a>
+    <a href="{% url 'register' %}">注册</a>
+    <a href="{% url 'index' %}">首页</a>
+    {% endif %}
+
+
+{% block content %}
+<br>方法1:<br>
+    {{good_fruit_type}}:
+        {% for goods in fruit_goods %}
+            <a href="{{ goods.get_absolute_url }}">{{goods.title}}</a>
+            {{goods.price}}
+        {% endfor %}
+    <br>
+方法2:<br>
+    {% for t in types %}
+        {{t.title}}:
+        {% for g in goods %}
+            {% if g.type.title == t.title %}
+                <a href="{{ g.get_absolute_url }}">{{g.title}}</a>
+            {% endif %}
+        {% endfor %}
+    <br>
+    {% endfor %}
+方法2:<br>
+    {% for m in ac %}
+        {{m.type}}:
+        {% for gs in m.goods %}
+            <a href="{{ gs.get_absolute_url }}">{{gs.title}}</a>
+    {% endfor %}
+<br>
+{% endfor %}
+{% endblock %}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

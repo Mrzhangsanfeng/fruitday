@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地址</title>
+</head>
+<body>
+<a href="{% url 'add_ads' %}">增加</a><br>
+{% for a in ads %}
+    姓名:{{a.aname}}<br>
+    地址:{{a.ads}}<br>
+    电话:{{a.phone}}<br>
+    <a href="{{ a.get_adsid }}">删除</a><br><br>
+{% endfor %}
+</body>
+</html>

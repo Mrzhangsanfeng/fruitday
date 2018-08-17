@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}订单{% endblock %}
+
+{% block content %}
+{% for ads in adss %}
+<br>
+    <input type="radio" name="adds" value="{{ads.id}}" _n="{{ads.aname}}" _p="{{ads.phone}}" _a="{{ads.ads}}">
+    {{ads.aname}}
+    {{ads.ads}}
+    {{ads.phone}}
+
+{% endfor %}
+<br>
+<div id="show"></div>
+
+<button onclick="porder()">确定订单</button>
+<span id="d1" style="color:green;"></span>
+<br>
+<a href="{% url 'showorder' %}">查看订单</a>
+
+<script src="{% static 'js/jquery-1.11.3.js' %}"></script>
+<script>
+    $(function () {
+        var cals=JSON.parse(sessionStorage.getItem('acot'));
+        var s='';
+        $.each(cals,function (index,obj) {
+//                console.log(obj.name);
+//                console.log(index);
+                s=obj.id+obj.name+' '+obj.price+' '+obj.count+'<br>';
+                $("#show").append(s);
+            }
+        );
+    })
+
+    function porder(){
+        console.log($("input:radio:checked").attr('_n'))
+        console.log(sessionStorage.getItem('acot'))
+        $.ajax({
+                url: 'addorder',
+                type: 'post',
+                datatype: 'json',
+                data: {
+                    'csrfmiddlewaretoken':'{{ csrf_token }}',
+                    'acot': sessionStorage.getItem('acot'),
+                    'adsname': $("input:radio:checked").attr('_n'),
+                    'adsphone': $("input:radio:checked").attr('_p'),
+                    'ads': $("input:radio:checked").attr('_a'),
+//                    'ads_id': $("['name':'adds']").val(),
+                },
+                success: function (data) {
+                    console.log(111111,typeof data);
+                    console.log(222222,JSON.parse(data).static);
+                    $("#d1").html('下单成功');
+                },
+                error: function (err) {
+                    console.log(err);
+                },
+            }
+        )
+    };
+
+
+
+</script>
+
+
+{% endblock %}
